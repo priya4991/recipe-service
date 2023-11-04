@@ -27,6 +27,7 @@ public class RecipeController {
     @PostMapping("/create-recipe/{userid}")
     public ResponseEntity<String> createRecipe(@PathVariable(name = "userid") String id,
                                           @RequestBody CreateRecipeBO recipe) {
+        recipeService.createRecipe(recipe);
         return new ResponseEntity<>("Recipe added", HttpStatus.CREATED);
 
     }
