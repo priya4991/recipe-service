@@ -1,9 +1,11 @@
 -- liquibase formatted sql
 
--- changeset liquibase:5
+-- changeset liquibase:6
 DROP TABLE IF EXISTS tags CASCADE;
 DROP TABLE IF EXISTS recipes CASCADE;
 DROP TABLE IF EXISTS recipes_tags;
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS likes;
 
 CREATE TABLE tags
 (
@@ -17,11 +19,11 @@ INSERT INTO tags (name) VALUES
 CREATE TABLE recipes
 (
     id SERIAL PRIMARY KEY,
-    user_id VARCHAR(10),
-    title VARCHAR(50),
+    user_id VARCHAR(10) NOT NULL,
+    title VARCHAR(50) NOT NULL,
     subtitle VARCHAR(100),
-    hero_image VARCHAR(500),
-    content TEXT
+    hero_image VARCHAR(500) NOT NULL,
+    content TEXT NOT NULL
 );
 
 CREATE TABLE recipes_tags
@@ -34,14 +36,14 @@ CREATE TABLE recipes_tags
 CREATE TABLE comments
 (
     id SERIAL PRIMARY KEY,
-    user_id VARCHAR(10),
+    user_id VARCHAR(10) NOT NULL,
     recipe_id BIGINT REFERENCES recipes (id) ON DELETE CASCADE,
-    comment VARCHAR(1000)
+    comment VARCHAR(1000) NOT NULL
 );
 
 CREATE TABLE likes
 (
     recipe_id BIGINT REFERENCES recipes (id) ON DELETE CASCADE,
-    user_id VARCHAR(10),
+    user_id VARCHAR(10) NOT NULL,
     PRIMARY KEY (recipe_id, user_id)
 );
